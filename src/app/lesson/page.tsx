@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import ReactMarkdown from 'react-markdown';
 
@@ -11,11 +11,6 @@ interface Lesson {
   title: string;
   completed: boolean;
 }
-
-// interface Course {
-//   user_id: string;
-//   chapters: { lessons: Lesson[] }[];
-// }
 
 interface GeneratedLessonResponse {
   lesson: string;
@@ -56,20 +51,18 @@ export default function LessonPage() {
     const fetchLessonData = async () => {
       try {
         const { data: courseData, error: courseError } = await supabase
-          .from('courses') // Table name as string
-          .select('user_id, chapters!inner(lessons!inner(id, title, completed))') // Column selections
+          .from('courses')
+          .select('user_id, chapters!inner(lessons!inner(id, title, completed))')
           .eq('id', courseId)
           .single();
 
         if (courseError) throw new Error(courseError.message);
 
-        // Ensure the course data matches the user's data
         if (courseData?.user_id !== userId) {
           setError('You do not have permission to view this lesson.');
           return;
         }
 
-        // Find the lesson in the fetched course data
         const foundLesson = courseData.chapters
           .flatMap((chapter) => chapter.lessons)
           .find((lesson) => lesson.id === parseInt(lessonId as string));
@@ -103,15 +96,12 @@ export default function LessonPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ course: courseId, category, lesson: lesson.title }),
         });
-        // Check if the response status is OK (status code 200-299)
         if (!res.ok) {
           throw new Error(`Failed to fetch lesson: ${res.statusText}`);
         }
 
-        // Try to parse the response as JSON
         const data: GeneratedLessonResponse = await res.json();
 
-        // Check if the lesson data exists
         if (!data.lesson) {
           throw new Error('Lesson content not found in the response.');
         }
@@ -127,7 +117,6 @@ export default function LessonPage() {
     fetchGeneratedLesson();
   }, [lesson]);
 
-  // Handle user message submission
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -153,7 +142,6 @@ export default function LessonPage() {
     }
   };
 
-  // Mark lesson as completed in Supabase
   const markAsComplete = async () => {
     const { error } = await supabase
       .from('lessons')
@@ -168,13 +156,7 @@ export default function LessonPage() {
     }
   };
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center -translate-y-10">
-        <span className="loading loading-ring loading-xl bg-[#F7AD45]"></span>
-      </div>
-    </div>
-  );
+  if (loading) return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -184,19 +166,11 @@ export default function LessonPage() {
 
       {messages.map((msg, index) => {
         if (typeof msg !== 'string') return null;
-
         const isUser = msg.startsWith('You: ');
         return (
-          <div
-            key={index}
-            className={`chat ${isUser ? 'chat-end' : 'chat-start'} w-full`}
-          >
-            <div
-              className={`chat-bubble ${isUser ? 'chat-bubble-warning' : 'chat-bubble-primary'}`}
-            >
-              <ReactMarkdown>
-                {isUser ? msg.replace('You: ', '') : msg}
-              </ReactMarkdown>
+          <div key={index} className={`chat ${isUser ? 'chat-end' : 'chat-start'} w-full`}>
+            <div className={`chat-bubble ${isUser ? 'chat-bubble-warning' : 'chat-bubble-primary'}`}>
+              <ReactMarkdown>{isUser ? msg.replace('You: ', '') : msg}</ReactMarkdown>
             </div>
           </div>
         );
@@ -237,3 +211,10 @@ export default function LessonPage() {
     </div>
   );
 }
+
+// Wrap the LessonPage in Suspense and export it as a named export
+export const LessonPageWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <LessonPage />
+  </Suspense>
+);
