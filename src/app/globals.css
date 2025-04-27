@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@plugin "daisyui"{
+  themes: light --default, dark --prefersdark, cupcake, business;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --background: #DDDDDD;
+  --foreground: #222831; */
 }
 
 @theme inline {
@@ -14,13 +17,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* --background: #222831;
+    --foreground: #DDDDDD; */
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
