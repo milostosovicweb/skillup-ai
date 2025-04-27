@@ -53,30 +53,6 @@ function setProgressColors(totalLessons: number, completedLessons: number) {
   }
 }
 
-export async function getCoursesWithChaptersAndLessons(userId: string): Promise<Course[]> {
-  const { data, error } = await supabaseAdmin
-    .from('courses')
-    .select('*, chapters(*, lessons(*))')
-    .eq('user_id', userId)
-    .order('id', { ascending: true })
-    .order('id', { foreignTable: 'chapters', ascending: true });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  const sortedData = data.map((course) => ({
-    ...course,
-    chapters: course.chapters.map((chapter) => ({
-      ...chapter,
-      lessons: chapter.lessons.sort((a, b) => a.id - b.id),
-    })),
-  }));
-
-  console.log('Fetched data:', sortedData); // Debug
-  return sortedData as Course[];
-}
-
 export default function DashboardPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -110,10 +86,27 @@ export default function DashboardPage() {
     const fetchCourses = async () => {
       try {
         console.log('Fetching courses for user ID:', userId);
-        const coursesData = await getCoursesWithChaptersAndLessons(userId);
-        console.log('Courses data:', coursesData);
+        const { data, error } = await supabaseAdmin
+          .from('courses')
+          .select('*, chapters(*, lessons(*))')
+          .eq('user_id', userId)
+          .order('id', { ascending: true })
+          .order('id', { foreignTable: 'chapters', ascending: true });
 
-        setCourses(coursesData);
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        const sortedData = data.map((course) => ({
+          ...course,
+          chapters: course.chapters.map((chapter) => ({
+            ...chapter,
+            lessons: chapter.lessons.sort((a, b) => a.id - b.id),
+          })),
+        }));
+
+        console.log('Fetched data:', sortedData); // Debug
+        setCourses(sortedData as Course[]);
       } catch (err) {
         console.error('Error fetching courses:', err);
         setError((err as Error).message);
