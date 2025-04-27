@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import ReactMarkdown from 'react-markdown';
 
@@ -16,7 +16,7 @@ interface GeneratedLessonResponse {
   lesson: string;
 }
 
-export default function LessonPage() {
+function LessonPage() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get('courseId');
   const lessonId = searchParams.get('lessonId');
@@ -212,4 +212,9 @@ export default function LessonPage() {
   );
 }
 
-// Export the LessonPage component directly as the default export
+// Wrap the LessonPage in Suspense and export it
+export const LessonPageWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <LessonPage />
+  </Suspense>
+);
