@@ -212,9 +212,11 @@ function LessonPage() {
   );
 }
 
-// Wrap the LessonPage in Suspense and export it
-export const LessonPageWrapper = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <LessonPage />
-  </Suspense>
-);
+// Default export the Suspense wrapper
+export default function LessonPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LessonPage />
+    </Suspense>
+  );
+}
