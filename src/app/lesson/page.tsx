@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import ReactMarkdown from 'react-markdown';
 
@@ -212,9 +212,4 @@ export default function LessonPage() {
   );
 }
 
-// Wrap the LessonPage in Suspense and export it as a named export
-export const LessonPageWrapper = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <LessonPage />
-  </Suspense>
-);
+// Export the LessonPage component directly as the default export
