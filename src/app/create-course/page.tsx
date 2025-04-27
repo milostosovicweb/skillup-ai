@@ -62,7 +62,6 @@ export default function CreateCoursePage() {
     
     try {
         setSaving(true);
-        debugger
         const response = await axios.post('/api/create-course', {
         title,
         categoryId: 1,

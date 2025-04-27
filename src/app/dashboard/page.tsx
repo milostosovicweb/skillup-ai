@@ -54,8 +54,9 @@ function setProgressColors(totalLessons: number, completedLessons: number) {
   }else if(progressPercentage >= 75 && progressPercentage < 100){
     return 'progress-info'
   }else{
-    return 'progress-success'}
+    return 'progress-success'
   }
+}
 
 export async function getCoursesWithChaptersAndLessons(userId: string): Promise<Course[]> {
   const { data, error } = await supabaseAdmin
@@ -178,7 +179,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="collapse-content">
                     <div className="overflow-x-auto">
-                    <p className="text-lg font-semibold">{course.description}</p>
+                    <div className="text-lg font-semibold">{course.description}</div>
                     <div className="divider"></div>
                       <table className="table table-pin-rows table-pin-cols">
                         <thead>
@@ -227,7 +228,7 @@ export default function DashboardPage() {
                                         </button>
                                       </form>
                                       <h3 className="font-bold text-lg">{chapter.title}</h3>
-                                      <p className="py-4">
+                                      <div className="py-4">
                                         <ul className="list bg-base-100 rounded-box shadow-md">
                                           <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
                                             Lessons
@@ -254,8 +255,6 @@ export default function DashboardPage() {
                                                     </div>
                                                   </div>
                                                 </div>
-                                                {/* <button className="btn btn-square btn-ghost"> */}
-                                                
                                                 <Link
                                                   href={{
                                                     pathname: '/lesson',
@@ -282,13 +281,12 @@ export default function DashboardPage() {
                                                       <path d="M6 3L20 12 6 21 6 3z"></path>
                                                     </g>
                                                   </svg>
-                                                  </Link>
-                                                {/* </button> */}
+                                                </Link>
                                               </li>
                                             );
                                           })}
                                         </ul>
-                                      </p>
+                                      </div>
                                     </div>
                                   </dialog>
                                 </td>

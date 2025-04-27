@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 export default function LessonPage() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get('courseId');
-  const chapterId = searchParams.get('chapterId');
+  // const chapterId = searchParams.get('chapterId');
   const lessonId = searchParams.get('lessonId');
   const category = searchParams.get('category');
 
@@ -86,8 +86,21 @@ export default function LessonPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ course: courseId, category, lesson: lesson.title }),
         });
+        // Check if the response status is OK (status code 200-299)
+        if (!res.ok) {
+          throw new Error(`Failed to fetch lesson: ${res.statusText}`);
+        }
+
+        // Try to parse the response as JSON
         const data = await res.text();
-        setMessages([JSON.parse(data).lesson]);
+        const parsedData = JSON.parse(data);
+
+        // Check if the lesson data exists
+        if (!parsedData.lesson) {
+          throw new Error('Lesson content not found in the response.');
+        }
+
+        setMessages([parsedData.lesson]);
       } catch (err) {
         console.error('Error generating lesson:', err);
         setMessages(['Failed to load lesson content.']);
@@ -95,7 +108,6 @@ export default function LessonPage() {
         setFetchingResponse(false);
       }
     };
-
     fetchGeneratedLesson();
   }, [lesson]);
 
@@ -142,9 +154,9 @@ export default function LessonPage() {
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
-      <p className="text-center -translate-y-10">
+      <div className="text-center -translate-y-10">
         <span className="loading loading-ring loading-xl bg-[#F7AD45]"></span>
-      </p>
+      </div>
     </div>
   );
   if (error) return <div>{error}</div>;
@@ -155,6 +167,9 @@ export default function LessonPage() {
       <h1 className="text-2xl font-bold mb-2">{lesson.title}</h1>
 
       {messages.map((msg, index) => {
+        // Check if the message is a valid string
+        if (typeof msg !== 'string') return null;
+
         const isUser = msg.startsWith('You: ');
         return (
           <div
@@ -172,11 +187,12 @@ export default function LessonPage() {
         );
       })}
 
+
       {fetchingResponse && (
         <div className="flex items-center justify-center">
-          <p className="text-center">
+          <div className="text-center">
             Lesson is generating...<span className="loading loading-infinity loading-xl"></span>
-          </p>
+          </div>
         </div>
       )}
 
