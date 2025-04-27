@@ -12,10 +12,10 @@ interface Lesson {
   completed: boolean;
 }
 
-interface Course {
-  user_id: string;
-  chapters: { lessons: Lesson[] }[];
-}
+// interface Course {
+//   user_id: string;
+//   chapters: { lessons: Lesson[] }[];
+// }
 
 interface GeneratedLessonResponse {
   lesson: string;
@@ -56,18 +56,20 @@ export default function LessonPage() {
     const fetchLessonData = async () => {
       try {
         const { data: courseData, error: courseError } = await supabase
-          .from<Course>('courses')
-          .select('user_id, chapters!inner(lessons!inner(id, title, completed))')
+          .from('courses') // Table name as string
+          .select('user_id, chapters!inner(lessons!inner(id, title, completed))') // Column selections
           .eq('id', courseId)
           .single();
 
         if (courseError) throw new Error(courseError.message);
 
-        if (courseData.user_id !== userId) {
+        // Ensure the course data matches the user's data
+        if (courseData?.user_id !== userId) {
           setError('You do not have permission to view this lesson.');
           return;
         }
 
+        // Find the lesson in the fetched course data
         const foundLesson = courseData.chapters
           .flatMap((chapter) => chapter.lessons)
           .find((lesson) => lesson.id === parseInt(lessonId as string));
@@ -178,7 +180,7 @@ export default function LessonPage() {
   return (
     <div className="p-4 mb-16 w-full">
       <h2 className="text-xl font-semibold mb-3">Welcome to your lesson!</h2>
-      <h1 className="text-2xl font-bold mb-2">{lesson.title}</h1>
+      <h1 className="text-2xl font-bold mb-2">{lesson?.title}</h1>
 
       {messages.map((msg, index) => {
         if (typeof msg !== 'string') return null;

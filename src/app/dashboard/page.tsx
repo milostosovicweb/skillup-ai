@@ -30,7 +30,7 @@ function getCourseStats(course: Course) {
   let totalLessons = 0;
   let completedLessons = 0;
 
-  course.chapters.forEach((chapter) => {
+  course.chapters.forEach((chapter: Chapter) => {
     totalLessons += chapter.lessons.length;
     completedLessons += chapter.lessons.filter((lesson) => lesson.completed).length;
   });
@@ -99,9 +99,9 @@ export default function DashboardPage() {
 
         const sortedData = data.map((course) => ({
           ...course,
-          chapters: course.chapters.map((chapter) => ({
+          chapters: course.chapters.map((chapter: Chapter) => ({
             ...chapter,
-            lessons: chapter.lessons.sort((a, b) => a.id - b.id),
+            lessons: chapter.lessons.sort((a: Lesson, b: Lesson) => a.id - b.id),
           })),
         }));
 
@@ -202,8 +202,7 @@ export default function DashboardPage() {
                                       setDialogOpen((prev) => ({
                                         ...prev,
                                         [chapter.id]: !prev[chapter.id],
-                                      }))
-                                    }
+                                      }))}
                                   >
                                     <FolderOpenNewIcon style={{ fontSize: 24 }} />
                                   </button>
