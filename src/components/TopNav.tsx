@@ -9,7 +9,7 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 export default function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
   const pathname = usePathname();
 
   useEffect(() => {

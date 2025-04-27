@@ -5,14 +5,29 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import ReactMarkdown from 'react-markdown';
 
+// Define types for lesson and course data
+interface Lesson {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+interface Course {
+  user_id: string;
+  chapters: { lessons: Lesson[] }[];
+}
+
+interface GeneratedLessonResponse {
+  lesson: string;
+}
+
 export default function LessonPage() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get('courseId');
-  // const chapterId = searchParams.get('chapterId');
   const lessonId = searchParams.get('lessonId');
   const category = searchParams.get('category');
 
-  const [lesson, setLesson] = useState<any>(null);
+  const [lesson, setLesson] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -41,7 +56,7 @@ export default function LessonPage() {
     const fetchLessonData = async () => {
       try {
         const { data: courseData, error: courseError } = await supabase
-          .from('courses')
+          .from<Course>('courses')
           .select('user_id, chapters!inner(lessons!inner(id, title, completed))')
           .eq('id', courseId)
           .single();
@@ -54,8 +69,8 @@ export default function LessonPage() {
         }
 
         const foundLesson = courseData.chapters
-          .flatMap((chapter: any) => chapter.lessons)
-          .find((lesson: any) => lesson.id === parseInt(lessonId as string));
+          .flatMap((chapter) => chapter.lessons)
+          .find((lesson) => lesson.id === parseInt(lessonId as string));
 
         if (!foundLesson) {
           setError('Lesson not found');
@@ -92,15 +107,14 @@ export default function LessonPage() {
         }
 
         // Try to parse the response as JSON
-        const data = await res.text();
-        const parsedData = JSON.parse(data);
+        const data: GeneratedLessonResponse = await res.json();
 
         // Check if the lesson data exists
-        if (!parsedData.lesson) {
+        if (!data.lesson) {
           throw new Error('Lesson content not found in the response.');
         }
 
-        setMessages([parsedData.lesson]);
+        setMessages([data.lesson]);
       } catch (err) {
         console.error('Error generating lesson:', err);
         setMessages(['Failed to load lesson content.']);
@@ -127,8 +141,8 @@ export default function LessonPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage }),
       });
-      const data = await res.text();
-      setMessages(prev => [...prev, JSON.parse(data).answer]);
+      const data = await res.json();
+      setMessages(prev => [...prev, data.answer]);
     } catch (err) {
       console.error('Error generating answer:', err);
       setMessages(prev => [...prev, 'Failed to fetch answer.']);
@@ -167,7 +181,6 @@ export default function LessonPage() {
       <h1 className="text-2xl font-bold mb-2">{lesson.title}</h1>
 
       {messages.map((msg, index) => {
-        // Check if the message is a valid string
         if (typeof msg !== 'string') return null;
 
         const isUser = msg.startsWith('You: ');
@@ -186,7 +199,6 @@ export default function LessonPage() {
           </div>
         );
       })}
-
 
       {fetchingResponse && (
         <div className="flex items-center justify-center">

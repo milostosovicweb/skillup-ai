@@ -1,4 +1,6 @@
 import React from 'react';
+import Image from 'next/image'; // Import the Image component from Next.js
+
 export default function HomePage() {
   const features = [
     {
@@ -27,14 +29,25 @@ export default function HomePage() {
         'Your learning experience is personal, and we take that seriously. With advanced encryption and secure authentication, your data is always safe with us.',
     },
   ];
+
   return (
     <div className="items-center justify-center">
       <div className="w-full flex flex-col justify-center items-center">
-        <img src="/logo.png" alt="SkillUp AI Logo" className="h-auto w-auto" />
+        {/* Replace <img> with <Image> from next/image */}
+        <Image
+          src="/logo.png" // Path to your image
+          alt="SkillUp AI Logo" // Alt text for accessibility
+          className="h-auto w-auto"
+          width={500} // Set an explicit width for optimization
+          height={500} // Set an explicit height for optimization
+          priority // Optional: This helps with critical images (like the logo)
+        />
       </div>
 
       <div className="flex flex-col items-center p-8 space-y-4">
-        <h2 className="text-4xl font-semibold text-white-700">Your personalized learning path with AI-powered course recommendations.</h2>
+        <h2 className="text-4xl font-semibold text-white-700">
+          Your personalized learning path with AI-powered course recommendations.
+        </h2>
         <div className="flex justify-center items-center min-h-screen bg-white-100">
           <div className="p-8 max-w-4xl w-full">
             <h1 className="text-3xl text-white-500 font-bold mb-6 text-center">
@@ -42,7 +55,7 @@ export default function HomePage() {
             </h1>
             <p className="text-lg text-white-700 mb-6 text-center">
               Unlock your full potential with SkillUp AI, the ultimate platform for personalized learning.
-              Whether you're looking to advance your career, master a new skill, or simply explore new knowledge,
+              Whether you&apos;re looking to advance your career, master a new skill, or simply explore new knowledge,
               SkillUp AI provides the tools you need to succeed.
             </p>
 
@@ -58,7 +71,7 @@ export default function HomePage() {
             </div>
 
             <p className="text-lg text-white-700 my-8 text-center">
-              Join the Learning Revolution. Don't just learn, learn smarter with SkillUp AI. Start your journey today
+              Join the Learning Revolution. Don&apos;t just learn, learn smarter with SkillUp AI. Start your journey today
               and unlock the best version of yourself.
             </p>
 
@@ -72,6 +85,5 @@ export default function HomePage() {
         </div>
       </div>
     </div>
-    
   );
 }

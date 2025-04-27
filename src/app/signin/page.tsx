@@ -90,7 +90,7 @@ export default function SignInPage() {
       </div>
 
       <p className="text-center text-sm text-base-content/35 mt-6">
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <a href="/register" className="text-[#F05454]/70 font-medium hover:underline">Register</a>
       </p>
     </div>
