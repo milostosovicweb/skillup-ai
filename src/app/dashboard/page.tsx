@@ -154,7 +154,7 @@ export default function DashboardPage() {
               return (
                 <div key={course.id} className="collapse collapse-arrow bg-base-100 border border-base-300">
                   <input type="radio" name="my-accordion-2" />
-                  <div className="collapse-title font-semibold">
+                  <div className="collapse-title font-semibold xs">
                     {course.title}
                     <progress
                       className={`progress ${progressColor} w-full`}
@@ -166,13 +166,14 @@ export default function DashboardPage() {
                     <div className="overflow-x-auto">
                       <p className="text-lg font-semibold">{course.description}</p>
                       <div className="divider"></div>
-                      <table className="table table-pin-rows table-pin-cols">
+                      {/* <table className="table table-pin-rows table-pin-cols"> */}
+                      <table className="table">
                         <thead>
                           <tr>
-                            <th className="w-5 text-center">#</th>
+                            <th className="text-center xs-hide">#</th>
                             <th className="text-center">CHAPTER</th>
-                            <th className="w-30 text-center">LESSONS</th>
-                            <th className="w-20 text-center">OPEN</th>
+                            <th className="text-center xs-hide">LESSONS</th>
+                            <th className="text-center xs-hide">OPEN</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -183,8 +184,13 @@ export default function DashboardPage() {
                             const progressColor = setProgressColors(chapter.lessons.length, completedCount);
                             return (
                               <tr key={chapter.id} className="hover:bg-base-300">
-                                <th className="text-center text-xl">{index + 1}</th>
-                                <td>
+                                <th className="text-center text-xl xs-hide">{index + 1}</th>
+                                <td 
+                                    onClick={() =>
+                                      setDialogOpen((prev) => ({
+                                        ...prev,
+                                        [chapter.id]: !prev[chapter.id],
+                                      }))}>
                                   {chapter.title}
                                   <progress
                                     className={`progress ${progressColor} w-full text-center`}
@@ -192,10 +198,10 @@ export default function DashboardPage() {
                                     max={chapter.lessons.length}
                                   ></progress>
                                 </td>
-                                <td className="text-center">
+                                <td className="text-center xs-hide">
                                   {completedCount} of {chapter.lessons.length}
                                 </td>
-                                <td>
+                                <td className='xs-hide'>
                                   <button
                                     className="btn btn-ghost text-center"
                                     onClick={() =>

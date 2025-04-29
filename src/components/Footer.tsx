@@ -2,7 +2,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="fixed bottom-0 w-full bg-base-300/50 backdrop-blur-sm text-center py-2 text-sm text-base-content">
+    <footer className="fixed bottom-0 w-full bg-base-300/50 backdrop-blur-sm text-center py-2 text-sm text-base-content sm:block hidden">
       <div className="container mx-auto">
         <span className="mr-2">Made with ❤️ by Miloš Tošović © {currentYear} </span>
         <a 
