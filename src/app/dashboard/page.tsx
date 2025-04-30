@@ -194,7 +194,7 @@ export default function DashboardPage() {
                                     max={chapter.lessons.length}
                                   ></progress>
                                 </td>
-                                <td className="text-center">
+                                <td className="xs-hide text-center">
                                   {completedCount} of {chapter.lessons.length}
                                 </td>
                                 <td className='xs-hide'>
