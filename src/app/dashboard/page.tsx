@@ -281,6 +281,11 @@ export default function DashboardPage() {
                                   >
                                    {chapter.title}<br />{completedCount} of {chapter.lessons.length}
                                   </button>
+                                  <progress
+                                    className={`progress ${progressColor} w-full text-center`}
+                                    value={completedCount}
+                                    max={chapter.lessons.length}
+                                  ></progress>
                                   {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
                                       <div className="modal-box">
