@@ -30,4 +30,5 @@ body {
         @media screen and (max-width: 400px) {
           .xs { width: 80% !important; }
           .xs-hide{ display: none !important; }
+          .xs-show{ display: block !important; }
         }

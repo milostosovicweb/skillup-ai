@@ -171,7 +171,7 @@ export default function DashboardPage() {
                         <thead>
                           <tr>
                             <th className="text-center xs-hide">#</th>
-                            <th className="text-center">CHAPTER</th>
+                            <th className="text-center xs-hide">CHAPTER</th>
                             <th className="text-center xs-hide">LESSONS</th>
                             <th className="text-center xs-hide">OPEN</th>
                           </tr>
@@ -185,12 +185,7 @@ export default function DashboardPage() {
                             return (
                               <tr key={chapter.id} className="hover:bg-base-300">
                                 <th className="text-center text-xl xs-hide">{index + 1}</th>
-                                <td 
-                                    onClick={() =>
-                                      setDialogOpen((prev) => ({
-                                        ...prev,
-                                        [chapter.id]: !prev[chapter.id],
-                                      }))}>
+                                <td className='xs-hide'>
                                   {chapter.title}
                                   <progress
                                     className={`progress ${progressColor} w-full text-center`}
@@ -211,6 +206,80 @@ export default function DashboardPage() {
                                       }))}
                                   >
                                     <FolderOpenNewIcon style={{ fontSize: 24 }} />
+                                  </button>
+                                  {dialogOpen[chapter.id] && (
+                                    <dialog open className="modal">
+                                      <div className="modal-box">
+                                        <form method="dialog">
+                                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                                            ✕
+                                          </button>
+                                        </form>
+                                        <h3 className="font-bold text-lg">{chapter.title}</h3>
+                                        <div className="py-4">
+                                          <ul className="list bg-base-100 rounded-box shadow-md">
+                                            {chapter.lessons.map((lesson, index) => (
+                                              <li key={index} className="list-row">
+                                                <div className="text-4xl font-thin opacity-30 tabular-nums">
+                                                  {index + 1}
+                                                </div>
+                                                <div className="list-col-grow">
+                                                  <div>{lesson.title}</div>
+                                                  <div className="text-xs uppercase font-semibold opacity-60">
+                                                    <div
+                                                      className={`badge badge-xs ${
+                                                        lesson.completed ? 'badge-success' : 'badge-secondary'
+                                                      }`}
+                                                    >
+                                                      {lesson.completed ? 'Completed' : 'Not Completed'}
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <Link
+                                                  href={{
+                                                    pathname: '/lesson',
+                                                    query: {
+                                                      courseId: course.id,
+                                                      chapterId: chapter.id,
+                                                      lessonId: lesson.id,
+                                                      category: 'Programming',
+                                                    },
+                                                  }}
+                                                >
+                                                  <svg
+                                                    className="size-[1.2em]"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                  >
+                                                    <g
+                                                      strokeLinejoin="round"
+                                                      strokeLinecap="round"
+                                                      strokeWidth="2"
+                                                      fill="none"
+                                                      stroke="currentColor"
+                                                    >
+                                                      <path d="M6 3L20 12 6 21 6 3z"></path>
+                                                    </g>
+                                                  </svg>
+                                                </Link>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </dialog>
+                                  )}
+                                </td>
+                                <td className='xs-show px-0 py-1'>
+                                  <button
+                                    className="btn btn-default text-center w-full h-full py-2"
+                                    onClick={() =>
+                                      setDialogOpen((prev) => ({
+                                        ...prev,
+                                        [chapter.id]: !prev[chapter.id],
+                                      }))}
+                                  >
+                                   {chapter.title}<br />{completedCount} of {chapter.lessons.length}
                                   </button>
                                   {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
