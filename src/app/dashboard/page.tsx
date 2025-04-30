@@ -152,7 +152,7 @@ export default function DashboardPage() {
               const { totalLessons, completedLessons } = getCourseStats(course);
               const progressColor = setProgressColors(totalLessons, completedLessons);
               return (
-                <div key={course.id} className="collapse collapse-arrow bg-base-100 border border-base-300">
+                <div key={course.id} className="collapse collapse-arrow bg-base-100 border border-base-300 mb-2">
                   <input type="radio" name="my-accordion-2" />
                   <div className="collapse-title font-semibold">
                     {course.title}
@@ -170,10 +170,11 @@ export default function DashboardPage() {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th className="text-center xs-hide">#</th>
+                            <th className="text-center xs-hide w-10">#</th>
                             <th className="text-center xs-hide">CHAPTER</th>
-                            <th className="text-center xs-hide">LESSONS</th>
-                            <th className="text-center xs-hide">OPEN</th>
+                            <th className="text-center xs-hide w-20">LESSONS</th>
+                            <th className="text-center xs-hide w-20">OPEN</th>
+                            <th className="text-center hidden">OPEN</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -193,12 +194,12 @@ export default function DashboardPage() {
                                     max={chapter.lessons.length}
                                   ></progress>
                                 </td>
-                                <td className="text-center xs-hide">
+                                <td className="text-center">
                                   {completedCount} of {chapter.lessons.length}
                                 </td>
                                 <td className='xs-hide'>
                                   <button
-                                    className="btn btn-ghost text-center"
+                                    className="btn btn-ghost text-center w-full"
                                     onClick={() =>
                                       setDialogOpen((prev) => ({
                                         ...prev,
@@ -270,7 +271,7 @@ export default function DashboardPage() {
                                     </dialog>
                                   )}
                                 </td>
-                                <td className='xs-show px-0 py-1'>
+                                <td className=' xs-show hidden px-0 py-1'>
                                   <button
                                     className="btn btn-default text-center w-full h-full py-2"
                                     onClick={() =>
