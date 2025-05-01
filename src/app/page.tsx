@@ -52,12 +52,12 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center p-8 space-y-4">
+      <div className="flex flex-col items-center sm:p-8 p-4 space-y-4">
         <h1 className="text-3xl text-white-500 font-bold mb-4 text-center">
           Your personalized learning path with AI-powered course recommendations.
         </h1>
         <div className="flex justify-center items-center min-h-screen bg-white-100">
-          <div className="p-8 max-w-4xl w-full">
+          <div className=" sm:p-8 p-4 max-w-4xl w-full">
             <p className="text-xl text-white-700 mb-6 text-center">
               Unlock your full potential with SkillUp AI, the ultimate platform for personalized learning.
               Whether you&apos;re looking to advance your career, master a new skill, or simply explore new knowledge,
