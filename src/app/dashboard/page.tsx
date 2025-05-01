@@ -138,11 +138,11 @@ export default function DashboardPage() {
   return (
     <ProtectedPage>
       <div className="p-8">
-        <h1 className="text-3xl font-bold pl-6 pb-2">Welcome to your Dashboard!</h1>
+        <h1 className="text-3xl text-center font-bold pl-2 pb-2">Welcome to your Dashboard!</h1>
 
         <div className="stats shadow">{/* Stats component */}</div>
 
-        <h2 className="text-2xl font-bold pl-6 pb-2">Courses</h2>
+        <h2 className="text-2xl font-bold pl-2 pb-2">Active Courses</h2>
 
         {courses.length === 0 ? (
           <div>No courses found</div>
