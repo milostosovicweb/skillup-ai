@@ -80,7 +80,7 @@ export default function TopNav() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-[#222831] shadow-lg flex flex-col items-center space-y-4 py-4 lg:hidden opacity-100">
+        <div className="absolute top-16 left-0 w-full bg-[rgba(34,40,49,0.75)] backdrop-blur shadow-lg flex flex-col items-center space-y-4 py-4 lg:hidden">
           {user ? (
             <>
               <Link href="/dashboard" onClick={() => setMenuOpen(false)}>
