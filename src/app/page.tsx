@@ -76,7 +76,7 @@ export default function HomePage() {
             </p>
 
             <a
-              href="#signup"
+              href="/register"
               className="block text-3xl text-center py-3 px-6 text-white font-semibold rounded-lg transition duration-300"
             >
               👉 Sign Up Now to get started!
