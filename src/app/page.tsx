@@ -6,27 +6,32 @@ export default function HomePage() {
     {
       title: '🚀 AI-Powered Roadmaps',
       description:
-        'No more guessing where to start. SkillUp AI generates personalized learning roadmaps based on your goals and current knowledge. Our AI adapts to your progress and ensures you always know what to learn next.'
+        'No more guessing where to start. SkillUp AI generates personalized learning roadmaps based on your goals and current knowledge. Our AI adapts to your progress and ensures you always know what to learn next.',
+        status: 'beta',
     },
     {
       title: '📚 Create and Track Courses',
       description:
         'Create your own courses or explore a vast library of curated content. With SkillUp AI, you can organize your lessons, track your progress, and stay motivated with a clear path forward.',
+        status: 'beta',
     },
     {
       title: '📝 Seamless Note-Taking and Progress Tracking',
       description:
         'Keep all your insights in one place! SkillUp AI automatically tracks your progress and lets you take notes directly within the platform. Stay organized and review your journey at any time.',
+        status: 'Coming Soon!',
     },
     {
       title: '📧 Daily Email Digest',
       description:
         'Stay on top of your learning with daily email summaries of your notes, progress, and key takeaways. Never miss a step in your growth journey.',
+        status: 'Coming Soon!',
     },
     {
       title: '🔒 Security and Privacy First',
       description:
         'Your learning experience is personal, and we take that seriously. With advanced encryption and secure authentication, your data is always safe with us.',
+        status: 'Production',
     },
   ];
 
@@ -63,7 +68,8 @@ export default function HomePage() {
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start space-x-4 gap-x-4 rounded-2xl shadow-lg bg-[#222831] p-6">
                   <div>
-                    <h3 className="text-2xl text-white-800 font-semibold">{feature.title}</h3>
+                    <h3 className="text-2xl text-white-800 font-semibold">{feature.title} {feature.status === 'Coming Soon!'? <div className="badge badge-warning mb-1">SOON</div> : ''}</h3>
+                    
                     <p className="text-xl text-white-600">{feature.description}</p>
                   </div>
                 </div>
