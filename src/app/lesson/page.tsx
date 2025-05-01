@@ -175,11 +175,11 @@ function LessonPage() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="p-4 mb-16 w-full">
+    <div className="px-4 mb-16 w-full">
       {/* <h2 className="text-xl font-semibold mb-3">Welcome to your lesson!</h2> */}
       {/* <h1 className="text-2xl font-bold mb-2">{lesson?.title}</h1> */}
 
-      <div className="mx-auto flex max-w-sm items-center gap-x-4 pb-4">
+      <div className="flex max-w-sm items-center gap-x-4 pb-4 ml-1">
         {/* <Image 
         className="size-12 shrink-0" 
         src="/images/chat.svg" 
