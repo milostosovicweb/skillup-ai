@@ -227,21 +227,7 @@ export default function DashboardPage() {
                                     value={completedCount}
                                     max={chapter.lessons.length}
                                   ></progress>
-                                </td>
-                                <td className="xs-hide text-center">
-                                  {completedCount} of {chapter.lessons.length}
-                                </td>
-                                <td className='xs-hide'>
-                                  <button
-                                    className="btn btn-ghost text-center w-full"
-                                    onClick={() =>
-                                      setDialogOpen((prev) => ({
-                                        ...prev,
-                                        [chapter.id]: !prev[chapter.id],
-                                      }))}
-                                  >
-                                    <FolderOpenNewIcon style={{ fontSize: 24 }} />
-                                  </button>
+                                  
                                   {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
                                       <div className="modal-box">
@@ -288,6 +274,66 @@ export default function DashboardPage() {
                                     </dialog>
                                   )}
                                 </td>
+                                <td className="xs-hide text-center">
+                                  {completedCount} of {chapter.lessons.length}
+                                </td>
+                                <td className='xs-hide'>
+                                  <button
+                                    className="btn btn-ghost text-center w-full"
+                                    onClick={() =>
+                                      setDialogOpen((prev) => ({
+                                        ...prev,
+                                        [chapter.id]: !prev[chapter.id],
+                                      }))}
+                                  >
+                                    <FolderOpenNewIcon style={{ fontSize: 24 }} />
+                                  </button>
+                                  {/* {dialogOpen[chapter.id] && (
+                                    <dialog open className="modal">
+                                      <div className="modal-box">
+                                        <form method="dialog">
+                                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                                            <CloseNewIcon style={{ color: '#AC3F32', fontSize: 24 }}/>
+                                          </button>
+                                        </form>
+                                        <h3 className="font-bold text-3xl">{chapter.title}</h3>
+                                        <div className="py-4">
+                                        <ul className="steps w-full py-2">
+                                        {chapter.lessons.map((lesson, index) => ((
+                                          <li key={index} className={`step font-bold ${lesson.completed ? 'step-success' : ''}`}></li>
+                                        )))}
+                                          </ul>
+                                          <ul className="list">
+                                            {chapter.lessons.map((lesson, index) => (
+                                              <li key={index} className="list-row">
+                                                <div className="text-4xl text-center font-thin opacity-30 tabular-nums">
+                                                  {index + 1}
+                                                </div>
+                                                <div className="list-col-grow">
+                                                  <div className='text-2xl'>{lesson.title}</div>
+                                                  0 Notes! <span className="badge badge-warning badge-outline badge-sm mb-1 text-sm px-2 py-0">soon</span>
+                                                </div>
+                                                <Link
+                                                  href={{
+                                                    pathname: '/lesson',
+                                                    query: {
+                                                      courseId: course.id,
+                                                      chapterId: chapter.id,
+                                                      lessonId: lesson.id,
+                                                      category: 'Programming',
+                                                    },
+                                                  }}
+                                                >
+                                                  {lesson.completed ? <VerifiedNewIcon style={{ color: '#6BB187', fontSize: 36 }}/> : <PlayCircleNewIcon style={{ color: '#DBAE5A', fontSize: 36 }}/>}  
+                                                </Link>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </dialog>
+                                  )} */}
+                                </td>
                                 <td className=' xs-show hidden px-0 py-1'>
                                   <button
                                     className="btn btn-default text-center w-full h-full py-2"
@@ -309,13 +355,17 @@ export default function DashboardPage() {
                                       <div className="modal-box">
                                         <form method="dialog">
                                           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                                            ✕
+                                            <CloseNewIcon style={{ color: '#AC3F32', fontSize: 24 }}/>
                                           </button>
                                         </form>
-                                        <h3 className="font-bold text-lg">{chapter.title}</h3>
+                                        <h3 className="font-bold text-3xl">{chapter.title}</h3>
                                         <div className="py-4">
-                                          <ul className="list bg-base-100 rounded-box shadow-md">
-                                            
+                                        <ul className="steps w-full py-2">
+                                        {chapter.lessons.map((lesson, index) => ((
+                                          <li key={index} className={`step font-bold ${lesson.completed ? 'step-success' : ''}`}></li>
+                                        )))}
+                                          </ul>
+                                          <ul className="list">
                                             {chapter.lessons.map((lesson, index) => (
                                               <li key={index} className="list-row">
                                                 <div className="text-4xl text-center font-thin opacity-30 tabular-nums">
