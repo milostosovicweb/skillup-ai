@@ -1,9 +1,10 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import ReactMarkdown from 'react-markdown';
+import AlertMessage from '@/components/AlertMessage';
 // import Image from 'next/image';
 
 // Define types for lesson and course data
@@ -31,6 +32,8 @@ function LessonPage() {
   const [messages, setMessages] = useState<string[]>([]);
   const [input, setInput] = useState('');
   const [fetchingResponse, setFetchingResponse] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   
   interface Chapter {
@@ -120,7 +123,7 @@ function LessonPage() {
         if (!data.lesson) {
           throw new Error('Lesson content not found in the response.');
         }
-
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
         setMessages([data.lesson]);
       } catch (err) {
         console.error('Error generating lesson:', err);
@@ -140,7 +143,7 @@ function LessonPage() {
     const userMessage = input;
     setInput('');
     setFetchingResponse(true);
-
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     try {
       const res = await fetch('/api/generate-answer', {
         method: 'POST',
@@ -149,6 +152,7 @@ function LessonPage() {
       });
       const data = await res.json();
       setMessages(prev => [...prev, data.answer]);
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     } catch (err) {
       console.error('Error generating answer:', err);
       setMessages(prev => [...prev, 'Failed to fetch answer.']);
@@ -168,7 +172,8 @@ function LessonPage() {
       console.error('Error marking lesson complete:', error);
       alert('Could not mark lesson as completed.');
     } else {
-      alert('Lesson marked as completed!');
+    setShowAlert(true); 
+    // alert('Lesson marked as completed!');
     }
   };
 
@@ -176,7 +181,7 @@ function LessonPage() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="px-4 mb-16 w-full">
+    <div className="px-4 mb-16 w-full pb-16">
       {/* <h2 className="text-xl font-semibold mb-3">Welcome to your lesson!</h2> */}
       {/* <h1 className="text-2xl font-bold mb-2">{lesson?.title}</h1> */}
 
@@ -203,40 +208,50 @@ function LessonPage() {
           </div>
         );
       })}
-
+      <div ref={bottomRef} />
       {fetchingResponse && (
         <div className="flex items-center justify-center">
           <div className="text-center">
-            Lesson is generating...<span className="loading loading-infinity loading-xl"></span>
+            Lesson is generating...<span className="loading loading-infinity loading-xl text-[#F7AD45]"></span>
           </div>
         </div>
       )}
+      <div className="fixed bottom-0 left-0 w-full bg-[rgba(34,40,49,0.75)] backdrop-blur p-4 flex flex-col space-y-3 shadow-xl z-50">
+        <form onSubmit={handleSend} className="flex space-x-2">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            className="input px-3 py-2 flex-1"
+            disabled={fetchingResponse}
+          />
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={fetchingResponse}
+          >
+            Send
+          </button>
+        </form>
 
-      <form onSubmit={handleSend} className="flex space-x-2 mt-4">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          className="input px-3 py-2 flex-1"
-          disabled={fetchingResponse}
-        />
         <button
-          type="submit"
-          className="btn btn-primary"
+          onClick={markAsComplete}
+          className="btn btn-success px-4 py-2 w-full"
           disabled={fetchingResponse}
         >
-          Send
+          Mark lesson completed
         </button>
-      </form>
 
-      <button
-        onClick={markAsComplete}
-        className="btn btn-success mt-4 px-4 py-2 w-full"
-        disabled={fetchingResponse}
-      >
-        Mark lesson completed
-      </button>
-    </div>
+        {showAlert && (
+          <AlertMessage
+            variant="success"
+            message="Course successfully created!"
+            onClose={() => setShowAlert(false)}
+          />
+        )}
+      </div>
+  </div>
+    
   );
 }
 
