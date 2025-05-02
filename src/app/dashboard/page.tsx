@@ -163,21 +163,24 @@ export default function DashboardPage() {
             <button className="btn btn-sm" onClick={() => router.push('/create-course')}>START</button>
           </div>
         ) : (<div className="sm:w-8/12 w-full pt-6">
-          <label className="input w-full mb-4 shadow-lg">
-            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
-            <input type="search" className="grow" placeholder="Search courses by title" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-          </label>
+        
+            <div className=' border border-base-300 mb-2 shadow-lg bg-[#222831] p-4'>
+              <label className="input w-full">
+                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <g
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2.5"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                  </g>
+                </svg>
+                <input type="search" className="grow" placeholder="Search courses by title" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+              </label>
+            </div>
               {/* <PieChart /> */}
             {filteredCourses.map((course) => {
               const { totalLessons, completedLessons } = getCourseStats(course);

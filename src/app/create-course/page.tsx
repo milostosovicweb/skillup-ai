@@ -83,7 +83,7 @@ export default function CreateCoursePage() {
 
   return (
     <ProtectedPage>
-      <div className="max-w-xl mx-auto m-8  border border-base-300 mb-2 shadow-lg bg-[#222831] p-4">
+      <div className="max-w-xl mx-auto m-8 border border-base-300 mb-2 shadow-lg bg-[#222831] p-4">
         <h1 className="text-3xl font-bold mb-6">{ saved ? 'Course is successfully created!' : 'Create New Course'}</h1>
         {!saved && <form onSubmit={handleGenateRoadmap} className="space-y-4">
           
