@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" data-theme="business" className={quicksand.className}>
       <body>
         <TopNav />
-        <main className="pt-10 px-2">{children}</main>
+        <main className="pt-10">{children}</main>
         <Footer />
       </body>
     </html>

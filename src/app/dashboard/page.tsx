@@ -8,6 +8,7 @@ import FolderOpenNewIcon from '@mui/icons-material/FolderOpen';
 import VerifiedNewIcon from '@mui/icons-material/Verified';
 import PlayCircleNewIcon from '@mui/icons-material/PlayCircle';
 import CloseNewIcon from '@mui/icons-material/Close';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 // import PieChart from '@/components/PieChart';
 
@@ -65,7 +66,7 @@ export default function DashboardPage() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<{ [key: string]: boolean }>({});
   const [searchTerm, setSearchTerm] = useState<string>('');
-
+  const router = useRouter();
 
   // Get the logged-in user on mount
   useEffect(() => {
@@ -148,11 +149,19 @@ export default function DashboardPage() {
 
   return (
     <ProtectedPage>
-      <div className="flex flex-col items-center sm:p-8 p-2">
+      <div className="flex flex-col items-center p-0">
         <h1 className="text-3xl text-center font-bold pl-2 pb-2">Welcome to your Dashboard!</h1>
-
         {courses.length === 0 ? (
-          <div>No courses found</div>
+          <div role="alert" className="alert alert-vertical sm:alert-horizontal">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+              <h3 className="font-bold">No courses found!</h3>
+              <div className="text-xs"><a href='/create-course'>Create new courses to get started.</a></div>
+            </div>
+            <button className="btn btn-sm" onClick={() => router.push('/create-course')}>START</button>
+          </div>
         ) : (<div className="w-8/12 pt-6">
           <label className="input w-full mb-4 shadow-lg">
             <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -292,7 +301,7 @@ export default function DashboardPage() {
                                     value={completedCount}
                                     max={chapter.lessons.length}
                                   ></progress>
-                                  {dialogOpen[chapter.id] && (
+                                  {/* {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
                                       <div className="modal-box">
                                         <form method="dialog">
@@ -332,7 +341,7 @@ export default function DashboardPage() {
                                         </div>
                                       </div>
                                     </dialog>
-                                  )}
+                                  )} */}
                                 </td>
                               </tr>
                             );
