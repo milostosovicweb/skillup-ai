@@ -5,7 +5,11 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { supabase } from '@/lib/supabaseClient';
 import { useState, useEffect } from 'react';
 import FolderOpenNewIcon from '@mui/icons-material/FolderOpen';
+import VerifiedNewIcon from '@mui/icons-material/Verified';
+import PlayCircleNewIcon from '@mui/icons-material/PlayCircle';
+import CloseNewIcon from '@mui/icons-material/Close';
 import Link from 'next/link';
+// import PieChart from '@/components/PieChart';
 
 interface Lesson {
   id: number;
@@ -60,6 +64,8 @@ export default function DashboardPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<{ [key: string]: boolean }>({});
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
 
   // Get the logged-in user on mount
   useEffect(() => {
@@ -78,6 +84,11 @@ export default function DashboardPage() {
     getUser();
     setIsClient(true); // Ensure we are client-side before rendering
   }, []);
+
+  const filteredCourses = courses.filter(course =>
+    course.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
 
   // Fetch courses when userId is available
   useEffect(() => {
@@ -137,24 +148,35 @@ export default function DashboardPage() {
 
   return (
     <ProtectedPage>
-      <div className="p-8">
+      <div className="flex flex-col items-center p-8">
         <h1 className="text-3xl text-center font-bold pl-2 pb-2">Welcome to your Dashboard!</h1>
-
-        <div className="stats shadow">{/* Stats component */}</div>
-
-        <h2 className="text-2xl font-bold pl-2 pb-2">Active Courses</h2>
 
         {courses.length === 0 ? (
           <div>No courses found</div>
-        ) : (
-          <div>
-            {courses.map((course) => {
+        ) : (<div className="w-8/12 pt-6">
+          <label className="input w-full mb-4 shadow-lg">
+            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg>
+            <input type="search" className="grow" placeholder="Search courses by title" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+          </label>
+              {/* <PieChart /> */}
+            {filteredCourses.map((course) => {
               const { totalLessons, completedLessons } = getCourseStats(course);
               const progressColor = setProgressColors(totalLessons, completedLessons);
               return (
-                <div key={course.id} className="collapse collapse-arrow bg-base-100 border border-base-300 mb-2">
+                <div key={course.id} className="collapse collapse-arrow border border-base-300 mb-2 shadow-lg bg-[#222831] p-4">
                   <input type="radio" name="my-accordion-2" />
-                  <div className="collapse-title font-semibold">
+                  <div className="collapse-title font-semibold text-2xl">
                     {course.title}
                     <progress
                       className={`progress ${progressColor} w-full`}
@@ -186,7 +208,7 @@ export default function DashboardPage() {
                             return (
                               <tr key={chapter.id} className="hover:bg-base-300">
                                 <th className="text-center text-xl xs-hide">{index + 1}</th>
-                                <td className='xs-hide'>
+                                <td className='xs-hide text-xl'>
                                   {chapter.title}
                                   <progress
                                     className={`progress ${progressColor} w-full text-center`}
@@ -213,28 +235,25 @@ export default function DashboardPage() {
                                       <div className="modal-box">
                                         <form method="dialog">
                                           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                                            ✕
+                                            <CloseNewIcon style={{ color: '#AC3F32', fontSize: 24 }}/>
                                           </button>
                                         </form>
-                                        <h3 className="font-bold text-lg">{chapter.title}</h3>
+                                        <h3 className="font-bold text-3xl">{chapter.title}</h3>
                                         <div className="py-4">
-                                          <ul className="list bg-base-100 rounded-box shadow-md">
+                                        <ul className="steps w-full py-2">
+                                        {chapter.lessons.map((lesson, index) => ((
+                                          <li key={index} className={`step font-bold ${lesson.completed ? 'step-success' : ''}`}></li>
+                                        )))}
+                                          </ul>
+                                          <ul className="list">
                                             {chapter.lessons.map((lesson, index) => (
                                               <li key={index} className="list-row">
-                                                <div className="text-4xl font-thin opacity-30 tabular-nums">
+                                                <div className="text-4xl text-center font-thin opacity-30 tabular-nums">
                                                   {index + 1}
                                                 </div>
                                                 <div className="list-col-grow">
-                                                  <div>{lesson.title}</div>
-                                                  <div className="text-xs uppercase font-semibold opacity-60">
-                                                    <div
-                                                      className={`badge badge-xs ${
-                                                        lesson.completed ? 'badge-success' : 'badge-secondary'
-                                                      }`}
-                                                    >
-                                                      {lesson.completed ? 'Completed' : 'Not Completed'}
-                                                    </div>
-                                                  </div>
+                                                  <div className='text-2xl'>{lesson.title}</div>
+                                                  0 Notes! <span className="badge badge-warning badge-outline badge-sm mb-1 text-sm px-2 py-0">soon</span>
                                                 </div>
                                                 <Link
                                                   href={{
@@ -247,21 +266,7 @@ export default function DashboardPage() {
                                                     },
                                                   }}
                                                 >
-                                                  <svg
-                                                    className="size-[1.2em]"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                  >
-                                                    <g
-                                                      strokeLinejoin="round"
-                                                      strokeLinecap="round"
-                                                      strokeWidth="2"
-                                                      fill="none"
-                                                      stroke="currentColor"
-                                                    >
-                                                      <path d="M6 3L20 12 6 21 6 3z"></path>
-                                                    </g>
-                                                  </svg>
+                                                  {lesson.completed ? <VerifiedNewIcon style={{ color: '#6BB187', fontSize: 36 }}/> : <PlayCircleNewIcon style={{ color: '#DBAE5A', fontSize: 36 }}/>}  
                                                 </Link>
                                               </li>
                                             ))}
@@ -280,7 +285,7 @@ export default function DashboardPage() {
                                         [chapter.id]: !prev[chapter.id],
                                       }))}
                                   >
-                                   {chapter.title}<br />{completedCount} of {chapter.lessons.length}
+                                  {chapter.title}<br />{completedCount} of {chapter.lessons.length}
                                   </button>
                                   <progress
                                     className={`progress ${progressColor} w-full text-center`}
@@ -360,7 +365,7 @@ export default function DashboardPage() {
                 </div>
               );
             })}
-          </div>
+                </div>
         )}
       </div>
     </ProtectedPage>

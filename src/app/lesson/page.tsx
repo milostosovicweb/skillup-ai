@@ -160,10 +160,11 @@ function LessonPage() {
   const markAsComplete = async () => {
     const { error } = await supabase
       .from('lessons')
-      .update({ complete: true })
+      .update({ completed: true })
       .eq('id', lessonId);
 
     if (error) {
+    debugger
       console.error('Error marking lesson complete:', error);
       alert('Could not mark lesson as completed.');
     } else {
@@ -195,7 +196,7 @@ function LessonPage() {
         if (typeof msg !== 'string') return null;
         const isUser = msg.startsWith('You: ');
         return (
-          <div key={index} className={`chat ${isUser ? 'chat-end' : 'chat-start'} w-full`}>
+          <div key={index} className={`chat ${isUser ? 'chat-end' : 'chat-start'} w-full text-2xl`}>
             <div className={`chat-bubble ${isUser ? 'chat-bubble-warning' : 'chat-bubble-primary'} shadow-xl shadow-white-500`}>
               <ReactMarkdown>{isUser ? msg.replace('You: ', '') : msg}</ReactMarkdown>
             </div>

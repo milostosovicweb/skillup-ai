@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
+    "@nivo/pie": "^0.93.0",
     "@supabase/supabase-js": "^2.49.4",
     "axios": "^1.8.4",
     "lucide-react": "^0.503.0",
