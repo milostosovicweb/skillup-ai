@@ -162,7 +162,7 @@ export default function DashboardPage() {
             </div>
             <button className="btn btn-sm" onClick={() => router.push('/create-course')}>START</button>
           </div>
-        ) : (<div className="w-8/12 pt-6">
+        ) : (<div className="sm:w-8/12 w-full pt-6">
           <label className="input w-full mb-4 shadow-lg">
             <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <g
