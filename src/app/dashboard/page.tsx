@@ -148,7 +148,7 @@ export default function DashboardPage() {
 
   return (
     <ProtectedPage>
-      <div className="flex flex-col items-center p-8">
+      <div className="flex flex-col items-center sm:p-8 p-2">
         <h1 className="text-3xl text-center font-bold pl-2 pb-2">Welcome to your Dashboard!</h1>
 
         {courses.length === 0 ? (
@@ -303,22 +303,15 @@ export default function DashboardPage() {
                                         <h3 className="font-bold text-lg">{chapter.title}</h3>
                                         <div className="py-4">
                                           <ul className="list bg-base-100 rounded-box shadow-md">
+                                            
                                             {chapter.lessons.map((lesson, index) => (
                                               <li key={index} className="list-row">
-                                                <div className="text-4xl font-thin opacity-30 tabular-nums">
+                                                <div className="text-4xl text-center font-thin opacity-30 tabular-nums">
                                                   {index + 1}
                                                 </div>
                                                 <div className="list-col-grow">
-                                                  <div>{lesson.title}</div>
-                                                  <div className="text-xs uppercase font-semibold opacity-60">
-                                                    <div
-                                                      className={`badge badge-xs ${
-                                                        lesson.completed ? 'badge-success' : 'badge-secondary'
-                                                      }`}
-                                                    >
-                                                      {lesson.completed ? 'Completed' : 'Not Completed'}
-                                                    </div>
-                                                  </div>
+                                                  <div className='text-2xl'>{lesson.title}</div>
+                                                  0 Notes! <span className="badge badge-warning badge-outline badge-sm mb-1 text-sm px-2 py-0">soon</span>
                                                 </div>
                                                 <Link
                                                   href={{
@@ -331,21 +324,7 @@ export default function DashboardPage() {
                                                     },
                                                   }}
                                                 >
-                                                  <svg
-                                                    className="size-[1.2em]"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                  >
-                                                    <g
-                                                      strokeLinejoin="round"
-                                                      strokeLinecap="round"
-                                                      strokeWidth="2"
-                                                      fill="none"
-                                                      stroke="currentColor"
-                                                    >
-                                                      <path d="M6 3L20 12 6 21 6 3z"></path>
-                                                    </g>
-                                                  </svg>
+                                                  {lesson.completed ? <VerifiedNewIcon style={{ color: '#6BB187', fontSize: 36 }}/> : <PlayCircleNewIcon style={{ color: '#DBAE5A', fontSize: 36 }}/>}  
                                                 </Link>
                                               </li>
                                             ))}
@@ -365,7 +344,7 @@ export default function DashboardPage() {
                 </div>
               );
             })}
-                </div>
+          </div>
         )}
       </div>
     </ProtectedPage>
