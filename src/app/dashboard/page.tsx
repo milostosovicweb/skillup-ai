@@ -48,13 +48,13 @@ function setProgressColors(totalLessons: number, completedLessons: number) {
   if (progressPercentage <= 25) {
     return '';
   } else if (progressPercentage > 25 && progressPercentage < 50) {
-    return 'progress-error';
+    return 'error';
   } else if (progressPercentage >= 50 && progressPercentage < 75) {
-    return 'progress-warning';
+    return 'warning';
   } else if (progressPercentage >= 75 && progressPercentage < 100) {
-    return 'progress-info';
+    return 'primary';
   } else {
-    return 'progress-success';
+    return 'success';
   }
 }
 
@@ -191,7 +191,7 @@ export default function DashboardPage() {
                   <div className="collapse-title font-semibold text-2xl">
                     {course.title}
                     <progress
-                      className={`progress ${progressColor} w-full`}
+                      className={`progress progress-${progressColor} w-full`}
                       value={(completedLessons / totalLessons) * 100}
                       max="100"
                     ></progress>
@@ -219,17 +219,11 @@ export default function DashboardPage() {
                             const progressColor = setProgressColors(chapter.lessons.length, completedCount);
                             return (
                               <tr key={chapter.id} className="hover:bg-base-300">
-                                <th className="text-center text-xl xs-hide">{index + 1}</th>
-                                <td className='xs-hide text-xl'>
-                                  {chapter.title}
-                                  <progress
-                                    className={`progress ${progressColor} w-full text-center`}
-                                    value={completedCount}
-                                    max={chapter.lessons.length}
-                                  ></progress>
+                                <th className="text-center text-xl">
+                                {index + 1}
                                   
                                   {dialogOpen[chapter.id] && (
-                                    <dialog open className="modal">
+                                    <dialog open className="modal" style={{ zIndex: 9999 }}>
                                       <div className="modal-box">
                                         <form method="dialog">
                                           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -273,6 +267,14 @@ export default function DashboardPage() {
                                       </div>
                                     </dialog>
                                   )}
+                                </th>
+                                <td className='xs-hide text-xl'>
+                                  {chapter.title}
+                                  <progress
+                                    className={`progress progress-${progressColor} w-full text-center`}
+                                    value={completedCount}
+                                    max={chapter.lessons.length}
+                                  ></progress>
                                 </td>
                                 <td className="xs-hide text-center">
                                   {completedCount} of {chapter.lessons.length}
@@ -336,7 +338,7 @@ export default function DashboardPage() {
                                 </td>
                                 <td className=' xs-show hidden px-0 py-1'>
                                   <button
-                                    className="btn btn-default text-center w-full h-full py-2"
+                                    className={`btn btn-${progressColor} text-center w-full h-full py-2`}
                                     onClick={() =>
                                       setDialogOpen((prev) => ({
                                         ...prev,
@@ -345,11 +347,11 @@ export default function DashboardPage() {
                                   >
                                   {chapter.title}<br />{completedCount} of {chapter.lessons.length}
                                   </button>
-                                  <progress
+                                  {/* <progress
                                     className={`progress ${progressColor} w-full text-center`}
                                     value={completedCount}
                                     max={chapter.lessons.length}
-                                  ></progress>
+                                  ></progress> */}
                                   {/* {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
                                       <div className="modal-box">
