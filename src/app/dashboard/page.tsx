@@ -1,15 +1,17 @@
 'use client';
 
 import ProtectedPage from '@/components/ProtectedPage';
+import ChapterDialog from '@/components/ChapterDialog';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { supabase } from '@/lib/supabaseClient';
 import { useState, useEffect } from 'react';
 import FolderOpenNewIcon from '@mui/icons-material/FolderOpen';
-import VerifiedNewIcon from '@mui/icons-material/Verified';
-import PlayCircleNewIcon from '@mui/icons-material/PlayCircle';
-import CloseNewIcon from '@mui/icons-material/Close';
+// import VerifiedNewIcon from '@mui/icons-material/Verified';
+// import PlayCircleNewIcon from '@mui/icons-material/PlayCircle';
+// import CloseNewIcon from '@mui/icons-material/Close';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+// import Link from 'next/link';
+
 // import PieChart from '@/components/PieChart';
 
 interface Lesson {
@@ -221,8 +223,13 @@ export default function DashboardPage() {
                               <tr key={chapter.id} className="hover:bg-base-300">
                                 <th className="text-center text-xl">
                                 {index + 1}
-                                  
-                                  {dialogOpen[chapter.id] && (
+                                <ChapterDialog
+                                  isOpen={dialogOpen[chapter.id]}
+                                  chapter={chapter}
+                                  courseId={course.id}
+                                  onClose={() => setDialogOpen((prev) => ({ ...prev, [chapter.id]: false }))}
+                                />
+                                  {/*{dialogOpen[chapter.id] && (
                                     <dialog open className="modal" style={{ zIndex: 9999 }}>
                                       <div className="modal-box">
                                         <form method="dialog">
@@ -266,7 +273,7 @@ export default function DashboardPage() {
                                         </div>
                                       </div>
                                     </dialog>
-                                  )}
+                                  )} */}
                                 </th>
                                 <td className='xs-hide text-xl'>
                                   {chapter.title}
@@ -290,6 +297,12 @@ export default function DashboardPage() {
                                   >
                                     <FolderOpenNewIcon style={{ fontSize: 24 }} />
                                   </button>
+                                <ChapterDialog
+                                  isOpen={dialogOpen[chapter.id]}
+                                  chapter={chapter}
+                                  courseId={course.id}
+                                  onClose={() => setDialogOpen((prev) => ({ ...prev, [chapter.id]: false }))}
+                                />
                                   {/* {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
                                       <div className="modal-box">
