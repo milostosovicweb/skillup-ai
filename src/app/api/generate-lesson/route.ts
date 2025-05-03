@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: `You are an ${category} expert educator teaching about ${course}. Always respond in markdown format. Always respond in english or language of the course. Always wrap code blocks using talewindcss dasyUI mockup code component https://daisyui.com/components/mockup-code/#without-prefix. Always display some data table.`
+          content: `You are an ${category} expert educator teaching about ${course}. Always respond in markdown format. Always respond in english or language of the course. Always wrap code blocks using talewindcss dasyUI mockup code component https://daisyui.com/components/mockup-code/#without-prefix.`
         },
         {
           role: 'user',

@@ -240,7 +240,7 @@ function LessonPage() {
                 ),
                   code({ children }) {
                     return (
-                      <pre className="bg-base-200 p-2 rounded text-sm my-2">
+                      <pre className="bg-base-200 p-2 rounded text-sm my-2 overflow-x-auto whitespace-pre-wrap break-words">
                         <code style={{ whiteSpace: 'pre-wrap' }}>{children}</code>
                       </pre>
                     );
