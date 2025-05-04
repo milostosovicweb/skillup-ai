@@ -163,7 +163,26 @@ export default function DashboardPage() {
             <button className="btn btn-sm" onClick={() => router.push('/create-course')}>START</button>
           </div>
         ) : (<div className="sm:w-8/12 w-full pt-6">
-        
+
+        {Object.entries(dialogOpen).map(([chapterId, isOpen]) => {
+          if (!isOpen) return null;
+          const course = courses.find(c => c.chapters.some(ch => ch.id === parseInt(chapterId)));
+          const chapter = course?.chapters.find(ch => ch.id === parseInt(chapterId));
+          if (!chapter) return null;
+
+          return (
+            <ChapterDialog
+              key={chapterId}
+              isOpen={isOpen}
+              chapter={chapter}
+              courseId={course?.id}
+              onClose={() =>
+                setDialogOpen((prev) => ({ ...prev, [chapterId]: false }))
+              }
+            />
+          );
+        })}
+
             <div className=' border border-base-300 mb-2 shadow-lg bg-[#222831] p-4'>
               <label className="input w-full">
                 <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -221,12 +240,12 @@ export default function DashboardPage() {
                               <tr key={chapter.id} className="hover:bg-base-300">
                                 <th className="text-center text-xl">
                                 {index + 1}
-                                <ChapterDialog
+                                {/* <ChapterDialog
                                   isOpen={dialogOpen[chapter.id]}
                                   chapter={chapter}
                                   courseId={course.id}
                                   onClose={() => setDialogOpen((prev) => ({ ...prev, [chapter.id]: false }))}
-                                />
+                                /> */}
                                   {/*{dialogOpen[chapter.id] && (
                                     <dialog open className="modal" style={{ zIndex: 9999 }}>
                                       <div className="modal-box">
