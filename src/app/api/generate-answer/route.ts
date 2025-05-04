@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
 export async function POST(req: NextRequest) {
-  const { course, category, lesson, message } = await req.json();
+  const { course, category, lesson, message, lecture } = await req.json();
 
   // TODO: Make db pivot table uuid -> model so premium users can use gpt-3.5-turbo model
   const model = 'deepseek/deepseek-chat-v3-0324:free';
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: 'system',
-          content: `You are an ${category} expert educator teaching about ${course} and you are answering a students question coresponding to lecture ${lesson}.`
+          content: `You are an ${category} expert educator teaching about ${course} and you are answering a students question coresponding to lecture ${lesson} and here is the lecture you are answering: ${lecture}`
         },
         {
           role: 'user',

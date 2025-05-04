@@ -149,7 +149,7 @@ function LessonPage() {
       const res = await fetch('/api/generate-answer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({ message: userMessage, lecture: messages[0], course, category, lesson }),
       });
       const data = await res.json();
       setMessages(prev => [...prev, data.answer]);
