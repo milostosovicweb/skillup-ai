@@ -48,12 +48,10 @@ function getCourseStats(course: Course) {
 function setProgressColors(totalLessons: number, completedLessons: number) {
   const progressPercentage = (completedLessons / totalLessons) * 100;
   if (progressPercentage <= 25) {
-    return '';
-  } else if (progressPercentage > 25 && progressPercentage < 50) {
     return 'error';
-  } else if (progressPercentage >= 50 && progressPercentage < 75) {
+  } else if (progressPercentage >= 25 && progressPercentage < 50) {
     return 'warning';
-  } else if (progressPercentage >= 75 && progressPercentage < 100) {
+  } else if (progressPercentage >= 50 && progressPercentage < 100) {
     return 'primary';
   } else {
     return 'success';
@@ -218,7 +216,7 @@ export default function DashboardPage() {
                             const completedCount = chapter.lessons.filter(
                               (lesson) => lesson.completed === true
                             ).length;
-                            const progressColor = setProgressColors(chapter.lessons.length, completedCount);
+                            const lessonProgressColor = setProgressColors(chapter.lessons.length, completedCount);
                             return (
                               <tr key={chapter.id} className="hover:bg-base-300">
                                 <th className="text-center text-xl">
@@ -278,7 +276,7 @@ export default function DashboardPage() {
                                 <td className='xs-hide text-xl'>
                                   {chapter.title}
                                   <progress
-                                    className={`progress progress-${progressColor} w-full text-center`}
+                                    className={`progress progress-${lessonProgressColor} w-full text-center`}
                                     value={completedCount}
                                     max={chapter.lessons.length}
                                   ></progress>
@@ -351,7 +349,7 @@ export default function DashboardPage() {
                                 </td>
                                 <td className=' xs-show hidden px-0 py-1'>
                                   <button
-                                    className={`btn btn-${progressColor} text-center w-full h-full py-2`}
+                                    className={`btn btn-${lessonProgressColor} text-center w-full h-full py-2`}
                                     onClick={() =>
                                       setDialogOpen((prev) => ({
                                         ...prev,
