@@ -307,28 +307,57 @@ function LessonPage() {
       )}
       <div className="fixed bottom-0 left-0 w-full bg-[rgba(34,40,49,0.75)] backdrop-blur p-4 flex flex-col space-y-3 shadow-xl z-50">
         <form onSubmit={handleSend} className="flex space-x-2">
-          <input
+          {/* <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
+            placeholder="Ask a question..."
             className="input px-3 py-2 flex-1"
             disabled={fetchingResponse}
           />
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-soft btn-primary text-2xl"
             disabled={fetchingResponse}
           >
-            Send
-          </button>
+            ❓
+          </button> */}
+
+
+          <div className="join w-full">
+            <div className="w-full">
+              <label className="input validator join-item w-full">
+                <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <g
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2.5"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </g>
+                </svg>
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask a question..."
+                  className="input px-3 py-2 flex-1 focus:outline-none"
+                  disabled={fetchingResponse}
+                />
+              </label>
+              <div className="validator-hint hidden">Ask a question...</div>
+            </div>
+            <button className="btn btn-primary join-item">SEND</button>
+          </div>
         </form>
 
         <button
           onClick={markAsComplete}
-          className="btn btn-success px-4 py-2 w-full"
+          className="btn btn-outline  btn-success px-4 py-2 w-full"
           disabled={fetchingResponse}
         >
-          Mark lesson completed
+          MARK COMPLETED
         </button>
 
         {showAlert && (
