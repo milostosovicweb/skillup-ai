@@ -68,7 +68,7 @@ export default function HomePage() {
               {features.map((feature, index) => (
                 <div key={index} className="flex items-start space-x-4 gap-x-4 rounded-2xl shadow-lg bg-[#222831] p-6">
                   <div>
-                    <h3 className="text-2xl text-white-800 font-semibold">{feature.title} {feature.status === 'Coming Soon!'? <div className="badge badge-warning mb-1">SOON</div> : ''}</h3>
+                    <h3 className="text-2xl text-white-800 font-semibold">{feature.title} {feature.status === 'Coming Soon!'? <div className="badge badge-warning mb-1">Coming soon!</div> : ''}</h3>
                     
                     <p className="text-xl text-white-600">{feature.description}</p>
                   </div>

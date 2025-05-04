@@ -29,7 +29,7 @@ const ChapterDialog: FC<ChapterDialogProps> = ({ isOpen, chapter, courseId, onCl
   if (!isOpen) return null;
 
   return (
-    <dialog open className="modal modal-bottom sm:modal-middle">
+    <dialog open className="modal modal-full z-99999">
       <div className="modal-box">
         <form method="dialog">
           <button
@@ -62,10 +62,10 @@ const ChapterDialog: FC<ChapterDialogProps> = ({ isOpen, chapter, courseId, onCl
 
                 <div className="flex-1">
                   <div className="text-2xl">{lesson.title}</div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm opacity-50 mt-1">
                     0 Notes!{' '}
                     <span className="badge badge-warning badge-outline badge-sm mb-1 text-sm px-2 py-0">
-                      soon
+                      Coming soon!
                     </span>
                   </div>
                 </div>

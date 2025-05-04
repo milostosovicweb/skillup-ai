@@ -297,12 +297,12 @@ export default function DashboardPage() {
                                   >
                                     <FolderOpenNewIcon style={{ fontSize: 24 }} />
                                   </button>
-                                <ChapterDialog
+                                {/* <ChapterDialog
                                   isOpen={dialogOpen[chapter.id]}
                                   chapter={chapter}
                                   courseId={course.id}
                                   onClose={() => setDialogOpen((prev) => ({ ...prev, [chapter.id]: false }))}
-                                />
+                                /> */}
                                   {/* {dialogOpen[chapter.id] && (
                                     <dialog open className="modal">
                                       <div className="modal-box">
