@@ -47,15 +47,15 @@ function getCourseStats(course: Course) {
 
 function setProgressColors(totalLessons: number, completedLessons: number) {
   const progressPercentage = (completedLessons / totalLessons) * 100;
-  if (progressPercentage <= 25) {
-    return 'error';
-  } else if (progressPercentage >= 25 && progressPercentage < 50) {
-    return 'warning';
-  } else if (progressPercentage >= 50 && progressPercentage < 100) {
-    return 'primary';
-  } else {
-    return 'success';
-  }
+    if (progressPercentage <= 25) {
+      return '';
+    } else if (progressPercentage >= 25 && progressPercentage < 50) {
+      return 'warning';
+    } else if (progressPercentage >= 50 && progressPercentage < 100) {
+      return 'info';
+    } else {
+      return 'success';
+    }
 }
 
 export default function DashboardPage() {
@@ -150,19 +150,18 @@ export default function DashboardPage() {
   return (
     <ProtectedPage>
       <div className="flex flex-col items-center p-0">
-        <h1 className="text-3xl text-center font-bold pl-2 pb-2">Welcome to your Dashboard!</h1>
+        <h1 className="text-3xl text-center font-bold pl-2 pb-2 mb-6">📈 Dashboard</h1>
         {courses.length === 0 ? (
-          <div role="alert" className="alert alert-vertical sm:alert-horizontal">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
+          <div role="alert" className="alert alert-vertical sm:alert-horizontal text-xl w-8/12">
+            <svg style={{ height: '48px', width: '48px' }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <div>
-              <h3 className="font-bold">No courses found!</h3>
-              <div className="text-xs"><a href='/create-course'>Create new courses to get started.</a></div>
+              <span>Welcome! It looks like you haven’t created any courses yet.<br/>To start learning and unlock your personal AI teacher and mentor, go ahead and create your first course. It only takes a moment!</span>
             </div>
-            <button className="btn btn-sm" onClick={() => router.push('/create-course')}>START</button>
+            <button className="btn btn-sm btn-primary p-6 text-xl" onClick={() => router.push('/create-course')}>👉 Create new courses to get started</button>
           </div>
-        ) : (<div className="sm:w-8/12 w-full pt-6">
+        ) : (<div className="sm:w-8/12 w-full pt-2">
 
         {Object.entries(dialogOpen).map(([chapterId, isOpen]) => {
           if (!isOpen) return null;

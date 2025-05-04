@@ -197,7 +197,13 @@ function LessonPage() {
           <p className="text-xl text-gray-500 dark:text-gray-400">{lesson?.title}</p>
         </div>
       </div>
-
+      <div role="alert" className="alert mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span className='text-lg'>This lecture was specially generated for you by your personal AI techer. He will guide you through every topic, explain anything you&apos;re unsure about, and answer your questions as you go. Think of it as your own personal tutor — always ready to break things down, offer examples, and help you master the material at your own pace.</span>
+      </div>
+      <div className="divider">LECTURE</div>
       {messages.map((msg, index) => {
         if (typeof msg !== 'string') return null;
         const isUser = msg.startsWith('You: ');
