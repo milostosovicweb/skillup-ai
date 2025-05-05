@@ -5,6 +5,7 @@ import axios from 'axios';
 import categories from '@/data/categories.json';
 import ProtectedPage from '@/components/ProtectedPage';
 import { supabase } from '@/lib/supabaseClient';
+import AlertMessage from '@/components/AlertMessage';
 
 export default function CreateCoursePage() {
   const [title, setTitle] = useState('');
@@ -15,6 +16,7 @@ export default function CreateCoursePage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [showAlert, setShowAlert] = useState(false);
   
   type RoadmapChapter = {
     chapter: string;
@@ -84,11 +86,12 @@ export default function CreateCoursePage() {
   return (
     <ProtectedPage>
       <div className="max-w-xl mx-auto m-8 border border-base-300 mb-2 shadow-lg bg-[#222831] p-4">
-        <h1 className="text-3xl font-bold mb-6">{ saved ? 'Course is successfully created!' : 'Create New Course'}</h1>
+        <h1 className="text-2xl font-bold">{ saved ? 'New course is successfully created!' : 'Create New Course'}</h1>
+        {saved ? <a href="/dashboard" className="text-2xl font-bold mb-6 ">👉 Go to Dashboard and start learning.</a> : ''}
         {!saved && <form onSubmit={handleGenateRoadmap} className="space-y-4">
           
           <div>
-            <label className="block mb-1">Course Title</label>
+            <label className="block mb-1 mt-6">Course Title</label>
             <input
               type="text"
               value={title}
@@ -138,8 +141,8 @@ export default function CreateCoursePage() {
           </button>
           } 
         </form>}
-        { saved && <p className="text-lg font-bold mb-6">{title}</p>}
-        { saved && <p className="text-lg font-bold mb-6">{category}</p>}
+        { saved && <p className="text-4xl font-bold mb-6 mt-6">{title}</p>}
+        { saved && <p className="text-xl font-bold mb-6">{category}</p>}
         { saved && <p className="text-lg font-bold mb-6">{description}</p>}
         <div>
           {roadmap.length > 0 && <h2 className="text-xl font-bold mb-2 mt-6">Learning Roadmap:</h2>}
@@ -175,6 +178,13 @@ export default function CreateCoursePage() {
           {!saving && 'Save Course'}
         </button>
         }
+        {showAlert && (
+          <AlertMessage
+            variant="success"
+            message="Course is successfully created!"
+            onClose={() => setShowAlert(false)}
+          />
+        )}
       </div>
     </ProtectedPage>
   );

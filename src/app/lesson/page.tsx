@@ -369,7 +369,7 @@ function LessonPage() {
         {showAlert && (
           <AlertMessage
             variant="success"
-            message="Course successfully created!"
+            message="Course marked as completed!"
             onClose={() => setShowAlert(false)}
           />
         )}
