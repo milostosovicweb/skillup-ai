@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { API_URL, OPENROUTER_MODEL, OPENROUTER_API_KEY } from '@/lib/config';
+import { API_URL, OPENROUTER_MODEL, OPENROUTER_API_KEY } from '@/lib/openRouteConfig';
 import axios from 'axios';
 
 export async function POST(req: NextRequest) {
