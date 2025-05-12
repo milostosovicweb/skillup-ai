@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { API_URL, OPENROUTER_MODEL, OPENROUTER_API_KEY } from '@/lib/config';
 import axios from 'axios';
 
 // Define the structure of the roadmap response
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest) {
   const { title, category } = await req.json();
 
   // TODO: Make db pivot table uuid -> model so premium users can use gpt-3.5-turbo model
-  const model = 'deepseek/deepseek-chat-v3-0324:free';
+  // const model = 'deepseek/deepseek-chat-v3-0324:free';
 
   // Function to convert the response string to JSON
   function convertToJson(response: string): Lesson[] | null {
@@ -29,8 +30,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: model,
+    const response = await axios.post(API_URL, {
+      model: OPENROUTER_MODEL,
       messages: [
         {
           role: 'system',
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
       ]
     }, {
       headers: {
-        'Authorization': `Bearer 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`,
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json'
       }
     });
